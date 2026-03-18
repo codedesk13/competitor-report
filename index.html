@@ -1,0 +1,1299 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Reports — SocialPilot Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --ink-soft: #4a4845;
+    --ink-muted: #9a9590;
+    --paper: #faf9f7;
+    --paper-warm: #f3f0eb;
+    --paper-dark: #ede9e2;
+    --accent: #d4501a;
+    --accent-soft: #f5ece6;
+    --sp-blue: #1a56db;
+    --sp-blue-soft: #e8effe;
+    --rule: #e2ddd8;
+    --success: #2a7a4b;
+    --success-soft: #e6f4ed;
+    --warn: #92400e;
+    --warn-soft: #fef3cd;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* PROGRESS */
+  #progress-bar {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--accent);
+    width: 0%; z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100; padding: 16px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(250,249,247,0.9);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-brand {
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px; color: var(--ink);
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-size: 12px; font-weight: 500;
+    color: var(--ink-soft); text-decoration: none;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 148px 48px 88px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: ''; display: block;
+    width: 24px; height: 1.5px; background: var(--accent);
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(44px, 5.5vw, 76px);
+    line-height: 1.07; letter-spacing: -0.02em;
+    color: var(--ink); max-width: 840px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 18px; color: var(--ink-soft);
+    max-width: 560px; line-height: 1.65;
+    font-weight: 300; margin-bottom: 48px;
+  }
+
+  /* ROLE BLOCK — new prominent element */
+  .role-block {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+    align-items: center;
+  }
+  .role-divider {
+    width: 1px; height: 40px;
+    background: rgba(255,255,255,0.12);
+    align-self: center;
+  }
+  .role-item { padding: 0 28px; }
+  .role-item:first-child { padding-left: 0; }
+  .role-item label {
+    display: block; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 6px;
+  }
+  .role-item value {
+    display: block; font-size: 14px;
+    font-weight: 500; color: rgba(255,255,255,0.9);
+    line-height: 1.35;
+  }
+  .role-item value em {
+    font-style: normal;
+    color: rgba(255,255,255,0.5);
+    font-size: 12px; display: block;
+    margin-top: 3px;
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 1100px; margin: 0 auto;
+    padding: 80px 48px;
+    border-top: 1px solid var(--rule);
+  }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 36px;
+  }
+  .section-label .num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 13px; font-style: italic; color: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(30px, 3.8vw, 44px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 23px; line-height: 1.3;
+    color: var(--ink); margin-bottom: 12px;
+  }
+  p { color: var(--ink-soft); margin-bottom: 18px; max-width: 680px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 26px 30px;
+    border-radius: 0 8px 8px 0;
+    margin: 36px 0;
+  }
+  .callout p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 19px; font-style: italic;
+    line-height: 1.5; color: var(--ink);
+    max-width: 100%; margin: 0;
+  }
+
+  /* CALLOUT NEUTRAL */
+  .callout-neutral {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 28px 0;
+  }
+  .callout-neutral p {
+    font-size: 15px; color: var(--ink-soft);
+    max-width: 100%; margin: 0; line-height: 1.6;
+  }
+  .callout-neutral strong { color: var(--ink); }
+
+  /* PERSONA BLOCK */
+  .persona {
+    background: var(--paper-dark);
+    border-radius: 12px; padding: 40px 44px;
+    margin: 40px 0; display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px; align-items: start;
+  }
+  .persona-avatar {
+    width: 56px; height: 56px;
+    background: var(--ink); border-radius: 50%;
+    display: flex; align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px; font-style: italic;
+    color: var(--paper);
+  }
+  .persona-name {
+    font-size: 16px; font-weight: 600;
+    color: var(--ink); margin-bottom: 2px;
+  }
+  .persona-title {
+    font-size: 13px; color: var(--ink-muted);
+    margin-bottom: 16px; font-weight: 400;
+  }
+  .persona p {
+    font-size: 15px; line-height: 1.65;
+    max-width: 100%; color: var(--ink-soft);
+  }
+  .persona-quote {
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+  }
+  .persona-quote p {
+    font-size: 15px; font-style: italic;
+    color: var(--ink); margin: 0;
+  }
+
+  /* TWO COL */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: start;
+  }
+  .two-col-wide {
+    display: grid; grid-template-columns: 1.35fr 1fr;
+    gap: 72px; align-items: start;
+  }
+
+  /* INSIGHT GRID */
+  .insight-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; margin: 36px 0;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 12px; overflow: hidden;
+  }
+  .insight-card {
+    background: var(--paper); padding: 28px 24px;
+  }
+  .insight-card .ic-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 12px; font-style: italic;
+    color: var(--accent); margin-bottom: 14px; display: block;
+  }
+  .insight-card h4 {
+    font-size: 14px; font-weight: 600;
+    color: var(--ink); margin-bottom: 8px; line-height: 1.3;
+  }
+  .insight-card p {
+    font-size: 13px; line-height: 1.6;
+    color: var(--ink-soft); margin: 0; max-width: 100%;
+  }
+
+  /* COMP TABLE */
+  .comp-table {
+    width: 100%; border-collapse: collapse;
+    margin: 28px 0; font-size: 14px;
+  }
+  .comp-table th {
+    text-align: left; padding: 11px 14px;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--ink-muted); border-bottom: 1px solid var(--rule);
+  }
+  .comp-table td {
+    padding: 14px 14px; border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft); vertical-align: middle;
+  }
+  .comp-table td:first-child { font-weight: 600; color: var(--ink); }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr.sp-row td { background: var(--sp-blue-soft); }
+  .comp-table tr.sp-row td:first-child { color: var(--sp-blue); }
+
+  .tag {
+    display: inline-block; padding: 3px 9px;
+    border-radius: 100px; font-size: 11px; font-weight: 600;
+    margin: 1px;
+  }
+  .tag-yes { background: var(--success-soft); color: var(--success); }
+  .tag-no { background: #fde8e8; color: #b91c1c; }
+  .tag-partial { background: var(--warn-soft); color: var(--warn); }
+  .tag-sp { background: var(--sp-blue-soft); color: var(--sp-blue); }
+
+  .table-caveat {
+    font-size: 12px; color: var(--ink-muted);
+    margin-top: -16px; margin-bottom: 28px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* PROBLEM CENTREPIECE */
+  .asymmetry-block {
+    margin: 40px 0;
+    border: 1px solid var(--rule);
+    border-radius: 12px; overflow: hidden;
+  }
+  .asymmetry-header {
+    padding: 20px 28px;
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--rule);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .asymmetry-body {
+    display: grid; grid-template-columns: 1fr 80px 1fr;
+    background: white;
+  }
+  .asym-col {
+    padding: 28px 28px;
+  }
+  .asym-col h4 {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .asym-col.yours h4 { color: var(--sp-blue); }
+  .asym-col.theirs h4 { color: var(--ink-muted); }
+  .asym-center {
+    display: flex; align-items: center;
+    justify-content: center; flex-direction: column;
+    gap: 8px; border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    padding: 20px 0;
+  }
+  .asym-center span {
+    font-size: 20px; color: var(--ink-muted);
+  }
+  .asym-center small {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-muted); writing-mode: vertical-rl;
+  }
+  .metric-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    font-size: 13px;
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-yes { background: var(--success); }
+  .dot-no { background: #e2ddd8; }
+  .metric-row span { color: var(--ink-soft); }
+  .metric-row span.unavail { color: #c8c3bc; text-decoration: line-through; }
+  .asym-footer {
+    padding: 16px 28px;
+    background: #fff8f5;
+    border-top: 1px solid #fde0d0;
+    font-size: 13px; color: var(--accent);
+    font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* DECISION BLOCK */
+  .decision-block {
+    background: var(--paper-dark);
+    border-radius: 12px; padding: 36px 40px; margin: 36px 0;
+  }
+  .decision-block h3 { font-size: 18px; margin-bottom: 6px; }
+  .decision-block .db-sub {
+    font-size: 13px; color: var(--ink-muted);
+    margin-bottom: 24px; display: block;
+  }
+  .decision-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .decision-option {
+    padding: 20px 22px; border-radius: 8px;
+    border: 1.5px solid var(--rule);
+    background: white;
+  }
+  .decision-option.chosen {
+    border-color: var(--accent); background: var(--accent-soft);
+  }
+  .decision-option .do-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    margin-bottom: 8px; display: block;
+  }
+  .decision-option.chosen .do-label { color: var(--accent); }
+  .decision-option:not(.chosen) .do-label { color: var(--ink-muted); }
+  .decision-option p {
+    font-size: 13px; line-height: 1.55;
+    max-width: 100%; margin: 0; color: var(--ink-soft);
+  }
+
+  /* FLOW */
+  .flow {
+    display: flex; align-items: stretch;
+    gap: 0; margin: 32px 0; flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1; min-width: 130px;
+    padding: 22px 18px;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 8px; text-align: center;
+  }
+  .flow-step .fs-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .flow-step .fs-label {
+    font-size: 13px; font-weight: 600;
+    color: var(--ink); margin-bottom: 4px; display: block;
+  }
+  .flow-step .fs-sub { font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
+  .flow-arrow {
+    font-size: 16px; color: var(--ink-muted);
+    padding: 0 10px; display: flex;
+    align-items: center; flex-shrink: 0;
+  }
+
+  /* SCREEN BLOCKS */
+  .screen-block {
+    margin: 44px 0; background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 12px; overflow: hidden;
+  }
+  .screen-block-header {
+    padding: 18px 26px; border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .screen-block-header .sb-title {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+  }
+  .screen-block-header .sb-badge {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--sp-blue); background: var(--sp-blue-soft);
+    padding: 4px 11px; border-radius: 100px;
+  }
+  .screen-canvas {
+    background: #e8e4de; padding: 28px 32px;
+    display: flex; justify-content: center; gap: 18px;
+    flex-wrap: wrap;
+  }
+  .mock-window {
+    background: white; border-radius: 8px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  /* ANNOTATION LIST */
+  .annotation-list {
+    padding: 22px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+    border-top: 1px solid var(--rule);
+  }
+  .annotation { display: flex; gap: 14px; align-items: flex-start; }
+  .annotation-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .annotation p {
+    font-size: 14px; margin: 0; max-width: 100%; line-height: 1.55;
+  }
+  /* KEY: annotations now have tension */
+  .annotation .tradeoff {
+    display: inline-block; margin-top: 6px;
+    font-size: 12px; color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  /* METRIC PILLS */
+  .metric-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+  .metric-pill {
+    padding: 7px 14px; background: var(--paper-warm);
+    border: 1px solid var(--rule); border-radius: 100px;
+    font-size: 13px; font-weight: 500; color: var(--ink);
+  }
+
+  /* OUTCOME */
+  .outcome-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 12px;
+    overflow: hidden; margin: 36px 0;
+  }
+  .outcome-stat { background: var(--paper); padding: 32px 28px; }
+  .outcome-stat .os-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px; line-height: 1;
+    color: var(--ink); margin-bottom: 8px; display: block;
+  }
+  .outcome-stat .os-label {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* HONEST OUTCOME — new element */
+  .honest-outcome {
+    background: var(--paper-dark);
+    border-radius: 12px; padding: 36px 40px; margin: 36px 0;
+    border-left: 3px solid var(--ink-muted);
+  }
+  .honest-outcome h4 {
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 14px;
+  }
+  .honest-outcome p {
+    font-size: 15px; max-width: 100%; color: var(--ink-soft);
+  }
+
+  /* REFLECTION */
+  .reflection-block {
+    background: var(--ink); color: var(--paper);
+    border-radius: 12px; padding: 52px 56px; margin: 36px 0;
+  }
+  .reflection-block h3 { color: var(--paper); font-size: 26px; margin-bottom: 8px; }
+  .reflection-block > p {
+    color: rgba(250,249,247,0.55); font-size: 15px; margin-bottom: 36px;
+  }
+  .reflection-item {
+    padding: 26px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; gap: 22px;
+  }
+  .reflection-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .ri-marker {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px; font-style: italic;
+    color: var(--accent); flex-shrink: 0; width: 28px; padding-top: 2px;
+  }
+  .ri-content h4 {
+    font-size: 15px; font-weight: 600;
+    color: var(--paper); margin-bottom: 8px;
+  }
+  .ri-content p {
+    font-size: 14px; line-height: 1.65;
+    color: rgba(250,249,247,0.6); max-width: 100%; margin: 0;
+  }
+  .ri-content strong { color: rgba(250,249,247,0.9); }
+  .ri-tag {
+    display: inline-block; margin-bottom: 8px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 100px;
+  }
+  .ri-tag-mistake { background: rgba(212,80,26,0.2); color: #f4956a; }
+  .ri-tag-learning { background: rgba(42,122,75,0.2); color: #6ec99a; }
+
+  /* DIVIDER */
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 44px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1100px; margin: 0 auto;
+  }
+  footer p { font-size: 13px; color: var(--ink-muted); margin: 0; max-width: 100%; }
+  .footer-brand {
+    font-family: 'Instrument Serif', serif;
+    font-size: 16px; color: var(--ink);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero > * { animation: fadeUp 0.65s ease both; }
+  .eyebrow { animation-delay: 0.05s; }
+  .hero h1 { animation-delay: 0.15s; }
+  .hero-sub { animation-delay: 0.25s; }
+  .role-block { animation-delay: 0.35s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero, .section { padding-left: 20px; padding-right: 20px; }
+    .hero { padding-top: 110px; }
+    .two-col, .two-col-wide { grid-template-columns: 1fr; gap: 36px; }
+    .insight-grid { grid-template-columns: 1fr; }
+    .outcome-row { grid-template-columns: 1fr; }
+    .decision-row { grid-template-columns: 1fr; }
+    .role-block { grid-template-columns: 1fr; gap: 16px; }
+    .role-divider { display: none; }
+    .role-item { padding: 0; }
+    .asymmetry-body { grid-template-columns: 1fr; }
+    .asym-center { display: none; }
+    .reflection-block { padding: 32px 24px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .persona { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-brand">SocialPilot <span>×</span> Case Study</div>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#user">User</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#outcome">Outcome</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="eyebrow">Product Design · Analytics Feature</div>
+  <h1>How I designed <em>competitor intelligence</em> into a social media management tool</h1>
+  <p class="hero-sub">A case study on SocialPilot's Competitor Reports — a new analytics capability that let marketing agencies track competitor performance on Instagram and Facebook without leaving their workflow.</p>
+
+  <!-- ROLE BLOCK — prominent, explicit, honest -->
+  <div class="role-block">
+    <div class="role-item">
+      <label>My Role</label>
+      <value>Product Designer
+        <em>All UI & interaction design, from scratch</em>
+      </value>
+    </div>
+    <div class="role-divider"></div>
+    <div class="role-item">
+      <label>What I owned</label>
+      <value>Every screen, every interaction, every component
+        <em>Within SocialPilot's existing design system</em>
+      </value>
+    </div>
+    <div class="role-divider"></div>
+    <div class="role-item">
+      <label>What was given to me</label>
+      <value>Feature scope, IA placement, report builder pattern
+        <em>PM & leadership · Engineering constraints</em>
+      </value>
+    </div>
+    <div class="role-divider"></div>
+    <div class="role-item">
+      <label>Feature Type</label>
+      <value>New capability — MVP
+        <em>Instagram & Facebook at launch</em>
+      </value>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     01 · CONTEXT
+════════════════════════════════════════════ -->
+<section class="section" id="context">
+  <div class="section-label"><span class="num">01</span> Context</div>
+  <div class="two-col-wide">
+    <div>
+      <h2>A growing gap in an otherwise capable product</h2>
+      <p>SocialPilot is a social media management platform used by over 13,500 customers — primarily marketing agencies and in-house teams who schedule, publish, and report on content at scale across Facebook, Instagram, LinkedIn, Twitter, TikTok, and more.</p>
+      <p>Analytics is a core pillar. Users could already track their own performance — follower growth, engagement, reach, audience demographics — and generate white-labelled, client-ready reports. <strong>But they had zero visibility into how competitors were performing.</strong></p>
+      <p>In agency work, that gap isn't just inconvenient. It directly affects the quality of strategy you can offer to clients. And as the feature request volume made clear, users knew exactly what they were missing.</p>
+    </div>
+    <div>
+      <div class="callout">
+        <p>"Competitor benchmarking was one of the most-requested features across our user base. Every major competitor tool had cracked it already. We weren't just catching up — we wanted to own it."</p>
+      </div>
+      <div class="callout-neutral">
+        <p><strong>The business signal:</strong> Feature requests for competitor analytics were overwhelming in volume, with users explicitly naming Sprout Social, Hootsuite, and Socialinsider as tools they were considering switching to. This was a retention and acquisition problem, not just a product gap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     02 · USER
+════════════════════════════════════════════ -->
+<section class="section" id="user">
+  <div class="section-label"><span class="num">02</span> The User</div>
+  <h2>Who this was really for</h2>
+  <p>The primary users of this feature are social media managers at marketing agencies — people managing social presence for multiple clients simultaneously. Understanding their actual workflow before this feature existed was essential to designing something that felt native to their process.</p>
+
+  <div class="persona">
+    <div class="persona-avatar">S</div>
+    <div>
+      <div class="persona-name">The Agency Social Media Manager</div>
+      <div class="persona-title">Managing 8–20 client social accounts · Reporting to clients weekly or monthly</div>
+      <p>Every Monday morning, before sending the weekly performance report to a client, they'd open three or four browser tabs. One for the client's SocialPilot analytics. One for the competitor's Instagram page — manually counting posts, noting follower counts, screenshotting anything useful. Maybe a Socialinsider trial account for the bigger clients. A spreadsheet tying it all together.</p>
+      <p>This wasn't a niche edge case. It was the standard workflow for any agency doing competitive strategy work — because SocialPilot had no built-in way to do it. The data existed publicly. The effort to retrieve it was entirely manual.</p>
+      <div class="persona-quote">
+        <p>"I need to tell my client why their engagement dropped last month. The first thing I have to check is whether a competitor just went viral — but I have to do that in a completely separate tool."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE REQUEST EVIDENCE -->
+  <div style="margin: 36px 0;">
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+      <span style="display:block; width:24px; height:1.5px; background:var(--ink-muted);"></span>
+      Real feature request — on file
+    </div>
+    <div style="background: white; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; max-width: 760px;">
+      <div style="background: var(--paper-warm); padding: 14px 24px; border-bottom: 1px solid var(--rule); display: flex; gap: 28px; font-size: 13px;">
+        <div><span style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-muted); margin-right:8px;">From</span> A SocialPilot user</div>
+        <div><span style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-muted); margin-right:8px;">Subject</span> Feature request</div>
+      </div>
+      <div style="padding: 24px 28px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px;">Feature Request: Competitor Tracking and Brand Mention Tracking</div>
+        <p style="font-size: 14px; line-height: 1.75; color: var(--ink-soft); max-width: 100%; margin: 0;">I want to be able to monitor competitors' posts, engagement metrics, and audience growth across platforms like <strong style="color:var(--ink);">Facebook, Instagram, X (formerly Twitter), LinkedIn, TikTok, and YouTube.</strong> I also want to be able to monitor mentions of your brand and competitors across platforms like X, Instagram, Facebook, YouTube, Pinterest, and web sources, even if they don't tag us. If you could provide competitive social media analytics, including <strong style="color:var(--ink);">benchmarking, post and profile monitoring, and detection of promoted posts</strong>, that wouldn't hurt, lol.</p>
+      </div>
+      <div style="background: var(--accent-soft); border-top: 1px solid var(--accent-line, #e8c5b4); padding: 14px 24px; display: flex; align-items: flex-start; gap: 12px;">
+        <span style="font-size: 16px; flex-shrink:0;">↗</span>
+        <p style="font-size: 13px; color: var(--accent); font-weight: 500; max-width: 100%; margin: 0; line-height: 1.55;">This request was typical of the volume we received — ambitious in scope (6 platforms, brand mentions, promoted post detection), but with a clear core need: <strong>stop making me leave SocialPilot to understand what my competitors are doing.</strong> It directly informed the decision to ship an MVP covering Facebook and Instagram first, and expand from there.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div>
+      <h3>What they needed from this feature</h3>
+      <p>Not a complex benchmarking dashboard. Their core need was simpler: <strong>keep track of how competitor accounts are performing, on the same platform where I already manage everything else.</strong></p>
+      <p>The three specific things they wanted to stop doing manually:</p>
+      <ul style="margin: 12px 0 0 20px; color: var(--ink-soft); font-size: 15px; line-height: 2;">
+        <li>Manually checking competitor pages for follower and engagement data</li>
+        <li>Using a separate third-party tool just for competitive analytics</li>
+        <li>Building client reports by pulling data from multiple places</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What success looked like for them</h3>
+      <p>Being able to open one tool, see their client's performance and a competitor's recent activity side by side in context, and include that in a client report — without leaving SocialPilot.</p>
+      <p>The feature didn't need to replace Socialinsider for power users. It needed to eliminate the friction for the majority who just needed basic competitor visibility integrated into their existing workflow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     03 · RESEARCH
+════════════════════════════════════════════ -->
+<section class="section" id="research">
+  <div class="section-label"><span class="num">03</span> Competitive Research</div>
+  <h2>What the market had already built — and where it fell short</h2>
+  <p>Before designing anything, I audited how competing tools had approached competitor analytics. The goal wasn't to find a design to copy. It was to understand the existing solution space well enough to identify where SocialPilot could go further.</p>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>Competitor Tracking</th>
+        <th>Platforms Covered</th>
+        <th>Real-time Data</th>
+        <th>Integrated with Publishing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Sprout Social</td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+        <td>FB, IG, Twitter, LinkedIn</td>
+        <td><span class="tag tag-no">✗ No</span></td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Hootsuite</td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+        <td>FB, IG, Twitter</td>
+        <td><span class="tag tag-no">✗ No</span></td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+      </tr>
+      <tr>
+        <td>Socialinsider</td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+        <td>FB, IG, Twitter, TikTok, YouTube</td>
+        <td><span class="tag tag-partial">~ Partial</span></td>
+        <td><span class="tag tag-no">✗ Standalone only</span></td>
+      </tr>
+      <tr>
+        <td>Buffer</td>
+        <td><span class="tag tag-partial">~ Limited</span></td>
+        <td>FB, IG</td>
+        <td><span class="tag tag-no">✗ No</span></td>
+        <td><span class="tag tag-yes">✓ Yes</span></td>
+      </tr>
+      <tr class="sp-row">
+        <td>SocialPilot (before)</td>
+        <td><span class="tag tag-no">✗ None</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="table-caveat">ⓘ Based on product audit conducted during the project. Feature availability may have changed since.</p>
+
+  <div class="insight-grid">
+    <div class="insight-card">
+      <span class="ic-num">Finding 01</span>
+      <h4>Real-time data was an untouched gap</h4>
+      <p>Every tool showed delayed or scheduled snapshots of competitor data. None offered live refresh. This was the clearest whitespace in the competitive landscape — and shaped our Live Data feature.</p>
+    </div>
+    <div class="insight-card">
+      <span class="ic-num">Finding 02</span>
+      <h4>Socialinsider set the quality benchmark</h4>
+      <p>As a dedicated analytics product covering five platforms, Socialinsider showed what metric depth looked like. It became our reference for what "comprehensive" means — even though our MVP would start smaller.</p>
+    </div>
+    <div class="insight-card">
+      <span class="ic-num">Finding 03</span>
+      <h4>No one had solved the data asymmetry problem</h4>
+      <p>Every tool either avoided side-by-side comparison entirely or surfaced it in ways that mixed incompatible data types. This was the core UX challenge that none had fully resolved.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     04 · PROBLEM
+════════════════════════════════════════════ -->
+<section class="section" id="problem">
+  <div class="section-label"><span class="num">04</span> Problem Definition</div>
+  <h2>The most important design decision happened before any screen was drawn</h2>
+  <p>The brief was: add competitor benchmarking. The obvious interpretation was to build a side-by-side comparison view — your metrics next to theirs. Clean, satisfying, exactly what users said they wanted.</p>
+  <p>But as I mapped out what data was actually available, a fundamental problem emerged that I needed to resolve before designing anything else.</p>
+
+  <!-- DATA ASYMMETRY — centrepiece, not a sidebar -->
+  <div class="asymmetry-block">
+    <div class="asymmetry-header">The data asymmetry problem</div>
+    <div class="asymmetry-body">
+      <div class="asym-col yours">
+        <h4>Your own account</h4>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Followers & growth rate</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Post reach & impressions</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Audience demographics</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Engagement rate</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Reactions, comments, shares</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Posting frequency & trends</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Ad performance data</span></div>
+      </div>
+      <div class="asym-center">
+        <span>≠</span>
+        <small>Not equivalent</small>
+      </div>
+      <div class="asym-col theirs">
+        <h4>A competitor's public page</h4>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Followers (count only)</span></div>
+        <div class="metric-row"><div class="metric-dot dot-no"></div><span class="unavail">Reach & impressions</span></div>
+        <div class="metric-row"><div class="metric-dot dot-no"></div><span class="unavail">Audience demographics</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Engagement (public posts only)</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Reactions, comments, shares</span></div>
+        <div class="metric-row"><div class="metric-dot dot-yes"></div><span>Posting frequency & trends</span></div>
+        <div class="metric-row"><div class="metric-dot dot-no"></div><span class="unavail">Ad performance data</span></div>
+      </div>
+    </div>
+    <div class="asym-footer">
+      ⚠ Forcing these into a direct comparison view doesn't show users the truth — it misleads them into making decisions based on false equivalence.
+    </div>
+  </div>
+
+  <div class="decision-block">
+    <h3>The design decision this forced</h3>
+    <span class="db-sub">Two directions — one was honest, one wasn't.</span>
+    <div class="decision-row">
+      <div class="decision-option">
+        <span class="do-label">❌ Explored & rejected</span>
+        <p>Side-by-side comparison view — visually compelling and immediately satisfying, but built on mismatched data sets. Would require asterisks, caveats, and intentional gaps that erode trust in the feature and in the data.</p>
+      </div>
+      <div class="decision-option chosen">
+        <span class="do-label">✓ Chosen direction</span>
+        <p>A dedicated Competitor Reports section — separate from your own analytics, fully honest about what public data is available, and focused on the insights that are genuinely actionable from competitor pages alone.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>The right design decision here wasn't the most obvious one. Choosing not to build a misleading comparison — even when users asked for it — was more honest, more durable, and more respectful of user intelligence.</p>
+  </div>
+
+  <p>This also reframed the feature's purpose. Rather than "compare yourself to competitors," the question became: <strong>"what can users learn from a competitor's public data that helps them make better content decisions?"</strong> That's a narrower but more actionable question — and it led to a cleaner, more focused design.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     05 · DESIGN
+════════════════════════════════════════════ -->
+<section class="section" id="design">
+  <div class="section-label"><span class="num">05</span> Design</div>
+  <h2>Designing the feature</h2>
+  <p>With the problem correctly scoped, I moved into design. The brief from PM and leadership defined three fixed constraints: the feature would live under Analytics in the existing nav, it would use the existing drag-and-drop report builder pattern, and it would cover Facebook and Instagram at launch. Everything else — every screen, every interaction state, every component, every edge case — was mine to figure out.</p>
+
+  <div class="callout-neutral">
+    <p><strong>A note on process:</strong> At SocialPilot, we work directly in high-fidelity. Rather than spending time on low-fidelity wireframes, we iterate rapidly in Figma at full resolution — exploring layout directions, stress-testing edge cases, and refining until we land on a solution that covers all use cases. The designs shown here are the result of that iteration process, not a first attempt. The number of directions explored before each screen was finalised is part of the story.</p>
+  </div>
+
+  <hr class="divider">
+
+  <h3>The user flow</h3>
+  <p style="margin-top: 10px;">The complete journey from entry point to insight needed to feel fast. Adding a competitor and seeing their data should take under 60 seconds for a returning user.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <span class="fs-icon">📊</span>
+      <span class="fs-label">Analytics nav</span>
+      <span class="fs-sub">Competitor Reports in the Analytics flyout</span>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <span class="fs-icon">📋</span>
+      <span class="fs-label">Reports list</span>
+      <span class="fs-sub">All tracked competitors with schedule info</span>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <span class="fs-icon">🔍</span>
+      <span class="fs-label">Add competitor</span>
+      <span class="fs-sub">Search by handle, select up to 10</span>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <span class="fs-icon">📈</span>
+      <span class="fs-label">View report</span>
+      <span class="fs-sub">Competitor's metrics across FB & IG</span>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <span class="fs-icon">✏️</span>
+      <span class="fs-label">Customise</span>
+      <span class="fs-sub">Drag-and-drop metric blocks</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SCREEN 1: LIST -->
+  <div class="screen-block">
+    <div class="screen-block-header">
+      <span class="sb-title">Competitor Reports — List View</span>
+      <span class="sb-badge">Entry Point</span>
+    </div>
+    <div class="screen-canvas">
+      <div class="mock-window" style="width: 100%; max-width: 740px;">
+        <div style="padding: 14px 22px; border-bottom: 1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:14px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:8px; display:inline-block;">Competitor Reports</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="border:1px solid #e2ddd8; width:160px; padding:7px 12px; border-radius:6px; font-size:12px; color:#9a9590;">🔍 Search</div>
+            <div style="background:#1a56db; color:white; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:600;">+ Add Competitor</div>
+          </div>
+        </div>
+        <div style="padding: 0 22px;">
+          <div style="display:grid; grid-template-columns:2.5fr 1.3fr 1fr 1fr; gap:12px; padding:10px 0; border-bottom:1px solid #f0ede8; font-size:10px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:#9a9590;">
+            <div>Report Name ↓</div><div>Account</div><div>Time Period</div><div>Schedule</div>
+          </div>
+          ${[
+            ["Burgerking Report","🔵","Burgerking","Last 30 Days","Monday"],
+            ["McDonald's Report","📸","McDonalds","Last 30 Days","Tuesday"],
+            ["Subway Report","📸","Subway","Last 30 Days","Friday"],
+            ["Wendy's Report","🔵","Wendys","Last 30 Days","Wednesday"],
+            ["Starbucks Report","📸","Starbucks","Last 30 Days","Saturday"],
+          ].map(([name,icon,acct,period,day]) => `
+          <div style="display:grid; grid-template-columns:2.5fr 1.3fr 1fr 1fr; gap:12px; padding:13px 0; border-bottom:1px solid #f7f6f4; align-items:center; font-size:12px;">
+            <div style="color:#1a56db; font-weight:500;">${name}</div>
+            <div style="display:flex; align-items:center; gap:6px; color:#4a4845;">${icon} ${acct}</div>
+            <div style="color:#4a4845;">${period}</div>
+            <div style="color:#4a4845;">${day}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="annotation-list">
+      <div class="annotation">
+        <div class="annotation-num">1</div>
+        <p><strong>Schedule column makes automation visible, not hidden.</strong> Each report has a delivery day. This is a power feature for agencies who send weekly reports to clients — but it was deliberately surfaced in the list view rather than buried in settings, so users discover it without being taught it.<span class="tradeoff">Alternative considered: moving Schedule to a settings panel per report. Rejected because it made the automation feel like a configuration step rather than a default behaviour.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">2</div>
+        <p><strong>Platform icon on Account Name disambiguates quickly.</strong> The Facebook and Instagram icons appear inline with the account name. When a user tracks the same brand on both platforms (as many do), the icon is the only visual differentiator in the list — scanning by eye is faster than reading every label.<span class="tradeoff">Alternative considered: a dedicated Platform column. Rejected because it added a column at the cost of report name readability on smaller screens.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">3</div>
+        <p><strong>Single primary CTA keeps the list uncluttered.</strong> "Add Competitor" is the only action in the top bar. Row-level actions (edit, delete) appear on hover or in context menus. This keeps the page scannable for users who have 10+ reports tracked.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2-5: ADD FLOW -->
+  <div class="screen-block">
+    <div class="screen-block-header">
+      <span class="sb-title">Add Competitor — Search & Select Flow</span>
+      <span class="sb-badge">Onboarding</span>
+    </div>
+    <div class="screen-canvas" style="align-items: flex-start; gap: 14px;">
+      <!-- State 1: Empty -->
+      <div class="mock-window" style="width: 268px;">
+        <div style="padding:14px 16px; border-bottom:1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:13px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:6px;">Add Competitor</div>
+          <div style="font-size:11px; font-weight:600; color:#9a9590;">0/10 Selected</div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px; font-weight:600; color:#4a4845; margin-bottom:7px;">Search Competitor</div>
+          <div style="border:1.5px solid #1a56db; border-radius:6px; padding:8px 11px; color:#9a9590; font-size:12px;">Type 3 characters…</div>
+          <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:11px; color:#9a9590; display:flex; align-items:center; gap:5px;">ⓘ Instagram & Facebook only</div>
+            <div style="background:#e2ddd8; color:#9a9590; padding:6px 12px; border-radius:6px; font-size:11px; font-weight:600;">Add</div>
+          </div>
+        </div>
+      </div>
+      <!-- State 2: Search results -->
+      <div class="mock-window" style="width: 268px;">
+        <div style="padding:14px 16px; border-bottom:1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:13px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:6px;">Add Competitor</div>
+          <div style="font-size:11px; font-weight:600; color:#9a9590;">0/10 Selected</div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px; font-weight:600; color:#4a4845; margin-bottom:7px;">Search Competitor</div>
+          <div style="border:1.5px solid #e2ddd8; border-radius:6px; padding:8px 11px; font-size:12px; color:#0f0e0d; display:flex; justify-content:space-between;">@subway <span style="color:#1a56db;">⟳</span></div>
+          <div style="margin-top:4px; background:white; border:1px solid #e2ddd8; border-radius:6px; overflow:hidden; box-shadow:0 3px 10px rgba(0,0,0,0.1);">
+            <div style="padding:9px 11px; display:flex; align-items:center; gap:7px; border-bottom:1px solid #f7f6f4; font-size:11px; color:#4a4845;">📸 @subway <span style="margin-left:auto; color:#9a9590; font-size:10px;">Instagram</span></div>
+            <div style="padding:9px 11px; display:flex; align-items:center; gap:7px; border-bottom:1px solid #f7f6f4; font-size:11px; color:#4a4845;">🔵 Subway <span style="margin-left:auto; color:#9a9590; font-size:10px;">136564…</span></div>
+            <div style="padding:9px 11px; display:flex; align-items:center; gap:7px; font-size:11px; color:#4a4845;">🔵 Subway Store <span style="margin-left:auto; color:#9a9590; font-size:10px;">136564…</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- State 3: Selected -->
+      <div class="mock-window" style="width: 268px;">
+        <div style="padding:14px 16px; border-bottom:1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:13px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:6px;">Add Competitor</div>
+          <div style="font-size:11px; font-weight:600; color:#1a56db;">2/10 Selected</div>
+        </div>
+        <div style="padding:14px 16px;">
+          <div style="font-size:11px; font-weight:600; color:#4a4845; margin-bottom:7px;">Search Competitor</div>
+          <div style="border:1.5px solid #e2ddd8; border-radius:6px; padding:6px 9px; display:flex; gap:5px; flex-wrap:wrap; min-height:38px;">
+            <span style="background:#e8effe; color:#1a56db; border-radius:100px; padding:3px 9px; font-size:11px; font-weight:600;">📸 @subway ×</span>
+            <span style="background:#e8effe; color:#1a56db; border-radius:100px; padding:3px 9px; font-size:11px; font-weight:600;">🔵 Subway ×</span>
+          </div>
+          <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:11px; color:#9a9590;">ⓘ Instagram & Facebook only</div>
+            <div style="background:#1a56db; color:white; padding:6px 12px; border-radius:6px; font-size:11px; font-weight:600;">Add</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation-list">
+      <div class="annotation">
+        <div class="annotation-num">1</div>
+        <p><strong>The 10-account counter acts as a soft constraint, not a hard wall.</strong> "0/10 Accounts Selected" updates in real time as competitors are added. The limit — set by the engineering team based on API capacity — is visible from the first moment. Users never hit an error state; the counter communicates the ceiling proactively.<span class="tradeoff">The risk: users might feel artificially limited. The counter mitigates this by framing it as a capacity indicator rather than a restriction, similar to how email attachment size limits are communicated.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">2</div>
+        <p><strong>Unified search across both platforms surfaces results by account name, not by platform.</strong> Users think about competitors by brand — not "my competitor's Instagram vs. their Facebook page." A single search field with platform icons in the dropdown is faster than switching between tabs. Both accounts for the same brand appear together.<span class="tradeoff">Alternative considered: separate Instagram and Facebook tabs in the modal. Rejected because it forced users to know which platform they were looking for before searching — adding a decision step that added no value.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">3</div>
+        <p><strong>Selected competitors become chips inside the input.</strong> The selection state lives in the same field as the search — no separate "selected" list. This keeps the modal compact and lets users see exactly what they've added without scrolling. The Add button only activates once at least one account is selected, preventing empty-state submissions.</p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">4</div>
+        <p><strong>Platform constraint is disclosed but not blocking.</strong> "Competitor report is only available for Instagram and Facebook" is present in the modal — but at the bottom, not at the top. For the majority of users whose competitors are on these platforms, it's context rather than a warning. For users on other platforms, it's an honest disclosure before they complete the flow.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: REPORT VIEW -->
+  <div class="screen-block">
+    <div class="screen-block-header">
+      <span class="sb-title">Competitor Report — View</span>
+      <span class="sb-badge">Core Experience</span>
+    </div>
+    <div class="screen-canvas">
+      <div class="mock-window" style="width:100%; max-width:740px;">
+        <div style="padding:12px 22px; border-bottom:1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="color:#1a56db; font-size:12px; font-weight:500;">← Competitor Reports</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div style="font-size:11px; color:#4a4845;">01-01-2025 to 31-03-2025</div>
+            <div style="border:1px solid #e2ddd8; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:600; color:#0f0e0d;">Edit</div>
+            <div style="background:#1a56db; color:white; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:600;">Share ▾</div>
+          </div>
+        </div>
+        <div style="padding:18px 22px;">
+          <div style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1px solid #f0ede8; border-radius:8px; margin-bottom:14px;">
+            <div style="width:32px; height:32px; background:#e8430a; border-radius:6px; display:flex; align-items:center; justify-content:center; color:white; font-size:14px;">🍔</div>
+            <div style="font-weight:700; font-size:15px; color:#0f0e0d;">Burgerking</div>
+          </div>
+          <div style="font-weight:700; font-size:15px; color:#0f0e0d; padding:10px 14px; border:1px solid #f0ede8; border-radius:6px; margin-bottom:12px; background:#f9f8f7;">Facebook Profile</div>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+            ${[
+              ["Followers","876.72K",null],
+              ["Posts","876.72K","↑ 76.92% in last 3 months"],
+              ["Engagements","876.72K","↑ 76.92% in last 3 months"],
+              ["Reactions","876.72K","↑ 76.92% in last 3 months"],
+            ].map(([label,val,trend]) => `
+            <div style="border:1px solid #e2ddd8; border-radius:7px; padding:13px 12px;">
+              <div style="font-size:10px; font-weight:700; color:#4a4845; margin-bottom:5px; letter-spacing:0.04em; text-transform:uppercase;">${label}</div>
+              <div style="display:flex; align-items:center; gap:5px; margin-bottom:6px;"><span style="font-size:9px;">🔵</span><span style="font-size:10px; color:#9a9590;">Burgerking</span></div>
+              <div style="font-size:17px; font-weight:700; color:#0f0e0d;">${val}</div>
+              ${trend ? `<div style="font-size:10px; color:#2a7a4b; margin-top:3px; font-weight:500;">${trend}</div>` : ''}
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation-list">
+      <div class="annotation">
+        <div class="annotation-num">1</div>
+        <p><strong>Competitor's brand identity anchors each section, not the platform name.</strong> The report opens with the competitor's profile image and name — not "Facebook Report." When a user is managing 10 tracked competitors, brand-first orientation prevents the mental load of figuring out whose data you're looking at before you read any numbers.<span class="tradeoff">This matters especially for agencies who track the same competitor across multiple platforms — each report feels like it belongs to that brand, not to a platform.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">2</div>
+        <p><strong>Platform as a section separator, not a page title.</strong> "Facebook Profile" and its Instagram equivalent are section headers within the report, not separate pages. Users see all of a competitor's available data in one scroll — reducing navigation overhead for those who need to compare the brand's FB vs. IG performance.</p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">3</div>
+        <p><strong>Percentage change is present only where the data supports it.</strong> Posts, Engagements, and Reactions show a "% in last 3 months" trend. Followers intentionally don't — follower counts are a lagging, slowly-changing metric and a percentage delta over 3 months would be misleadingly small. <strong>Selective use of trend indicators prevents number-washing.</strong><span class="tradeoff">This was a deliberate call: showing a trend indicator only when it adds signal, not just to make every card look consistent.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">4</div>
+        <p><strong>Account attribution on every metric card.</strong> Each card shows the competitor account name (e.g. "Burgerking") alongside the metric label. This looks redundant on a single-competitor report — but it was designed intentionally to support a future state where multiple competitors appear in one report view, making each card's ownership immediately clear.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: EDITOR -->
+  <div class="screen-block">
+    <div class="screen-block-header">
+      <span class="sb-title">Edit Report — Block-based Customisation</span>
+      <span class="sb-badge">Power Feature</span>
+    </div>
+    <div class="screen-canvas" style="align-items:flex-start; gap:14px;">
+      <div class="mock-window" style="flex:1; max-width:500px; min-height:240px;">
+        <div style="padding:12px 20px; border-bottom:1px solid #f0ede8; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:700; font-size:13px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:6px;">Edit Report</div>
+          <div style="display:flex; gap:8px;">
+            <div style="border:1px solid #e2ddd8; padding:5px 10px; border-radius:5px; font-size:11px; color:#1a56db; font-weight:500; display:flex; align-items:center; gap:5px;">⊙ Live Data</div>
+            <div style="background:#1a56db; color:white; padding:5px 10px; border-radius:5px; font-size:11px; font-weight:600;">Share ▾</div>
+          </div>
+        </div>
+        <div style="margin:16px 20px; padding:20px; background:#f7f6f4; border:2px dashed #e2ddd8; border-radius:8px; display:flex; align-items:center; justify-content:center; min-height:100px; color:#9a9590; font-size:12px; text-align:center; line-height:1.5;">
+          ↕ Drag metric blocks from the right panel<br>to customise your report layout
+        </div>
+      </div>
+      <div class="mock-window" style="width:172px;">
+        <div style="padding:10px 12px; border-bottom:1px solid #f0ede8; display:flex; gap:12px;">
+          <div style="font-weight:700; font-size:12px; color:#0f0e0d; border-bottom:2px solid #d4501a; padding-bottom:5px;">Blocks</div>
+          <div style="font-size:12px; color:#9a9590; padding-bottom:5px;">Pages</div>
+        </div>
+        <div style="padding:10px 12px;">
+          <div style="border:1px solid #e2ddd8; border-radius:5px; padding:6px 9px; font-size:11px; color:#9a9590; margin-bottom:8px;">🔍 Search Metrics</div>
+          <div style="font-size:9px; font-weight:700; color:#9a9590; margin-bottom:6px; letter-spacing:0.07em; text-transform:uppercase;">Burgerking</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+            ${['Followers','Posts','Engagements','Reactions','Comments','Shares','Publishing Trend','Eng. Trend'].map(m => `
+            <div style="background:#f7f6f4; border:1px solid #e2ddd8; border-radius:5px; padding:7px 4px; text-align:center; font-size:9px; color:#4a4845; cursor:grab;">${m}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="annotation-list">
+      <div class="annotation">
+        <div class="annotation-num">1</div>
+        <p><strong>The brief specified extending the existing report builder — my design work was in making that constraint serve the user, not fight them.</strong> Using the drag-and-drop block system for competitor metrics was prescribed before I started. What wasn't prescribed was how to organise competitor-specific blocks within that panel, how to make the experience feel purposefully designed rather than retrofitted, and critically — which existing block types mapped meaningfully to public competitor data and which would create false impressions. For example, I made the explicit decision not to surface impression or reach blocks in competitor reports, since those metrics only exist in a managed account's private data. That distinction required understanding the data model and translating it into interface decisions.<span class="tradeoff">The inherited constraint also carried inherited risk: a pattern built for your own analytics data doesn't automatically translate to public competitor data. The design work was in identifying every place that assumption would break — and resolving it before it reached a user.</span></p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">2</div>
+        <p><strong>Metric blocks organised by competitor account, not by metric type.</strong> In the right panel, blocks are grouped under the competitor's name. As users add more competitors, this means they can find "Burgerking's Engagement" vs "McDonald's Engagement" quickly — without scanning a flat list of all metrics across all accounts.</p>
+      </div>
+      <div class="annotation">
+        <div class="annotation-num">3</div>
+        <p><strong>Live Data was the feature no competitor had shipped.</strong> The "Live Data" button enables real-time data refresh within the report view — meaning the numbers update as you're looking at them, rather than reflecting a scheduled snapshot. This was the clearest product differentiator we had at launch and shaped how the feature was positioned externally.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <h3>Metrics available at launch</h3>
+  <p style="margin-top: 10px;">All metrics are derived from publicly available data on the competitor's Facebook and Instagram pages.</p>
+  <div class="metric-pills">
+    <div class="metric-pill">👥 Followers</div>
+    <div class="metric-pill">📝 Posts</div>
+    <div class="metric-pill">💬 Engagements</div>
+    <div class="metric-pill">❤️ Reactions</div>
+    <div class="metric-pill">💭 Comments</div>
+    <div class="metric-pill">↗️ Shares</div>
+    <div class="metric-pill">📅 Publishing Trend</div>
+    <div class="metric-pill">📊 Engagement Trend</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     06 · OUTCOME
+════════════════════════════════════════════ -->
+<section class="section" id="outcome">
+  <div class="section-label"><span class="num">06</span> Outcome</div>
+  <h2>What shipped, what it meant, and what I don't know yet</h2>
+  <p>Competitor Reports shipped as a focused MVP — Instagram and Facebook, up to 10 tracked competitors, with a fully customisable block-based report editor, scheduled automated delivery, and Live Data refresh.</p>
+
+  <div class="outcome-row">
+    <div class="outcome-stat">
+      <span class="os-num">10</span>
+      <span class="os-label">Competitors trackable per account — communicated proactively via counter, never as a surprise error</span>
+    </div>
+    <div class="outcome-stat">
+      <span class="os-num">2</span>
+      <span class="os-label">Platforms at launch — covering the highest-demand use cases before expanding to Twitter, TikTok, and YouTube</span>
+    </div>
+    <div class="outcome-stat">
+      <span class="os-num">1st</span>
+      <span class="os-label">In the competitive set to ship Live Data refresh for competitor analytics — a genuine differentiator at launch</span>
+    </div>
+  </div>
+
+  <h3>Strategic impact</h3>
+  <p style="margin-top: 12px;">The feature directly addressed the retention signal that triggered the project. Agencies evaluating SocialPilot against Sprout Social and Hootsuite had cited the absence of competitor analytics as a gap. Competitor Reports removed that objection from the sales conversation and gave agencies a reason to recommend SocialPilot to clients who needed competitive intelligence as part of their reporting.</p>
+  <p>The Live Data capability — real-time refresh that no competitor tool had shipped at the time — gave SocialPilot a differentiated talking point rather than just feature parity.</p>
+
+  <!-- HONEST OUTCOME BLOCK — new, credible -->
+  <div class="honest-outcome">
+    <h4>A note on metrics</h4>
+    <p>We didn't have feature-level instrumentation in place at launch to measure adoption rate, engagement with the report editor, or the impact on churn. In retrospect, <strong>I would have advocated for success metrics to be defined before the feature shipped</strong> — specifically: what percentage of active analytics users create at least one competitor report within 30 days, and does the feature correlate with reduced churn among agency accounts. I'm working with the PM to pull these numbers retrospectively and will update this case study when available.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     07 · REFLECTION
+════════════════════════════════════════════ -->
+<section class="section" id="reflection">
+  <div class="section-label"><span class="num">07</span> Reflection</div>
+  <h2>What I'd do differently</h2>
+  <p>This section matters more to me than the rest. What I learned from this project is more valuable than what I shipped.</p>
+
+  <div class="reflection-block">
+    <h3>Honest retrospective</h3>
+    <p>Four things — two mistakes, two directions I'd push further.</p>
+
+    <div class="reflection-item">
+      <div class="ri-marker">01</div>
+      <div class="ri-content">
+        <div class="ri-tag ri-tag-mistake">Mistake</div>
+        <h4>We skipped user testing entirely — and it showed</h4>
+        <p>We went from design to build without a single usability test. The assumption was that the search-by-handle flow was intuitive enough not to need validation. Post-launch, we heard from users who were confused about why some search results were selectable and others weren't — specifically, private accounts that appear in search but can't be tracked. <strong>A 30-minute usability session with two or three agency users would have surfaced this before it became a support issue.</strong> The lesson wasn't "always test everything." It was "test the interactions where you've made assumptions about user mental models."</p>
+      </div>
+    </div>
+
+    <div class="reflection-item">
+      <div class="ri-marker">02</div>
+      <div class="ri-content">
+        <div class="ri-tag ri-tag-mistake">Mistake</div>
+        <h4>I didn't define success metrics before the feature shipped</h4>
+        <p>There was no instrumentation plan. No agreement on what "good adoption" looked like. No baseline to measure against. This meant that post-launch, we had qualitative signals but no quantitative story. For a feature that was built in response to a business problem — churn risk — the absence of measurable outcomes is a design failure as much as a product failure. <strong>Outcome definition should be part of the design brief, not an afterthought.</strong></p>
+      </div>
+    </div>
+
+    <div class="reflection-item">
+      <div class="ri-marker">03</div>
+      <div class="ri-content">
+        <div class="ri-tag ri-tag-learning">Would push further</div>
+        <h4>The comparison problem deserves a real design solution, not an avoidance</h4>
+        <p>The decision to build a dedicated competitor view rather than a side-by-side comparison was correct given the data asymmetry. But I now think we stopped short of solving the real problem. There is a version of this — where your own key public-equivalent metrics appear alongside a competitor's, with explicit labelling of what's comparable and what isn't — that would be both honest and more actionable. <strong>Transparent data framing is better design than data avoidance.</strong> I'd spend more time in the next iteration finding that solution rather than working around the problem.</p>
+      </div>
+    </div>
+
+    <div class="reflection-item">
+      <div class="ri-marker">04</div>
+      <div class="ri-content">
+        <div class="ri-tag ri-tag-learning">Would push further</div>
+        <h4>Discoverability was an afterthought</h4>
+        <p>The feature lives in an Analytics nav flyout — invisible to users who don't explore the menu. For a feature responding to one of the most-requested items in our backlog, that's a significant missed opportunity. I'd design a contextual entry point inside the main Analytics dashboard — a prompt that appears when a user is viewing their own account analytics, saying "See how competitors compare." <strong>A feature that users don't discover doesn't have impact, no matter how well-designed it is.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">SocialPilot — Competitor Reports</div>
+  <p>Product Design Case Study · Instagram & Facebook Competitor Analytics</p>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+</script>
+</body>
+</html>
